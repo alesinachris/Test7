@@ -1,0 +1,103 @@
+﻿<mah:MetroWindow x:Class="WpfUserControlTest.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUserControlTest"
+        mc:Ignorable="d"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="MainWindow" Height="550" Width="900">
+
+    <Window.Resources>
+        <local:InvertBoolConverter x:Key="InvertBoolConverter"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="5">
+            <Button Content="Input locators data" 
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="InputLocatorsDataCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <Button Content="Input points" 
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="InputPointsCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <Button Content="Save locators data" 
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="SaveLocatorsDataCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <Button Content="Save points" 
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="SavePointsCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <Button Content="Clear all" 
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="ClearAllCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <Button Content="Clear targets" 
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="ClearTargetsCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <Button Content="Clear sensors"
+                    Command="{Binding UniversalCommand}"
+                    CommandParameter="ClearSensorsCommand"
+                    Margin="3"
+                    Style="{StaticResource MahApps.Styles.Button.Square.Accent}"/>
+            <StackPanel Orientation="Horizontal">
+                <Button Height="30"
+                        Width="30"
+                        Command="{Binding UniversalCommand}"
+                        CommandParameter="PlayCommand"
+                        Margin="3"
+                        IsEnabled="{Binding IsPlay, Converter={StaticResource InvertBoolConverter}}"
+                        Style="{StaticResource MahApps.Styles.Button.Square.Accent}">
+                    <Button.Content>
+                        <iconPacks:MaterialDesign Kind="PlayArrow"/>
+                    </Button.Content>
+                </Button>
+                <Button Height="30"
+                        Width="30"
+                        Command="{Binding UniversalCommand}"
+                        CommandParameter="RecordCommand"
+                        IsEnabled="{Binding IsCreatePath, Converter={StaticResource InvertBoolConverter}}"
+                        Margin="3"
+                        Style="{StaticResource MahApps.Styles.Button.Square.Accent}">
+                    <Button.Content>
+                        <iconPacks:MaterialDesign Kind="FiberManualRecord"/>
+                    </Button.Content>
+                </Button>
+                <CheckBox IsChecked="{Binding ElementName=CoordinatesControl, Path=IsCurve}"
+                      Content="is curve" 
+                      Margin="5"/>
+            </StackPanel>
+            <TextBlock Text="{Binding LastPointMessage}"/>
+        </StackPanel>
+
+        <local:CoordinateSystemControl x:Name="CoordinatesControl"
+                                       Sensors="{Binding Sensors}"
+                                       Targets="{Binding Targets}"  
+                                       IsCreatePath="{Binding IsCreatePath,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                       IsStopRecord="{Binding IsStopRecord,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                       IsStartRecord="{Binding IsStartRecord,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                       LastContextMenuClickPoint="{Binding LastContextMenuClickPoint,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                       LightSpeed="{Binding LightSpeed}"
+                                       Grid.Column="1"/>
+
+    </Grid>
+</mah:MetroWindow>
